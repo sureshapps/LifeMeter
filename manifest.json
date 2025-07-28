@@ -1,0 +1,90 @@
+{
+  "name": "Life Meter",
+  "short_name": "Life Meter",
+  "description": "DISCOVER YOUR ESTIMATED LIFESPAN BASED ON YOUR CURRENT AGE.",
+  "icons": [
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "48x48",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "1080x1920"
+    },
+    {
+      "src": "https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png",
+      "type": "image/png",
+      "sizes": "360x640"
+    }
+  ],
+  "start_url": "https://sureshapps.github.io/LifeMeter",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}
