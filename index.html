@@ -1,501 +1,119 @@
-<?php
-// Load life expectancy data from JSON file
-$jsonData = file_get_contents('data.json');
-$lifeExpectancyData = json_decode($jsonData, true)['data'];
+<!doctype html>
+<html>
 
-// Initialize variables
-$currentAge = 0;
-$remainingYears = 0;
-$expectedLifeSpan = 0;
-$showResults = false;
-
-// Process form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $birthDate = $_POST['birth_date'];
-    $birthDateObj = new DateTime($birthDate);
-    $today = new DateTime();
-    $age = $today->diff($birthDateObj)->y;
-    $currentAge = $age;
-    
-    // Find life expectancy for current age
-    foreach ($lifeExpectancyData as $data) {
-        if ($data['age'] == $currentAge) {
-            $remainingYears = $data['exp'];
-            break;
-        }
-    }
-    
-    $expectedLifeSpan = $currentAge + $remainingYears;
-    $showResults = true;
-}
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LIFE METER</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <head>
+    <meta http-equiv="refresh" content="6; url=https://lifemeter.suresh.app">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+ <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
-    <meta id="extViewportMeta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link href="https://fonts.cdnfonts.com/css/beyonders" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/share-techmono-2" rel="stylesheet">
-    
+
+    <link rel="manifest" href="https://sureshapps.github.io/LifeMeter/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Life Meter">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ff7700">
+    <meta name="apple-mobile-web-app-title" content="Life Meter">
+    <link rel="icon" sizes="192x192" href="https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png">
+    <link rel="apple-touch-icon" href="https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png">
+    <meta name="msapplication-TileImage" content="https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#000000">
+    <meta property="og:title" content="Life Meter">
+    <meta property="og:type" content="webapp">
+    <meta property="og:image" content="https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png">
+    <meta property="og:url" content="https://sureshapps.github.io/LifeMeter">
+    <meta property="og:description" content="DISCOVER YOUR ESTIMATED LIFESPAN BASED ON YOUR CURRENT AGE.">
+ 
+        <title>Life Meter</title>
+
+<style>
+
     <style>
         html, body {
             margin: 0; 
             padding: 0; 
-            overflow: hidden
+            overflow: hidden;
         }
-        
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #4e4e4e;
-            --primary-color: #6c5ce7;
-            --shadow-light: #000000;
-            --shadow-dark: #000000;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Share-TechMono', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            letter-spacing: 0px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .neumorphic {
-            background: #ffffff;
-            border: 4px solid #000;
-            box-shadow: 10px 10px 0 #000;
-            padding: 1.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-.bubble {
-  display: inline-block;
-  width: 152px;
-  height: 152px;
-  margin: 8px;
-  border-radius: 20%;
-  
-  background-image: url(https://github.com/sureshapps/LifeMeter/raw/main/Lifemeter.png);
-  background-size: 152px 152px;
+      
+body {
+  height: 96vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-        .title {
-            font-weight: 900;
-            color: #ff0000;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            font-family: 'Beyonders', sans-serif;
-            margin-bottom: 10px;
-        }
+#heart {
+  animation-name: heartbeat;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
 
-        .subtitle {
-            font-size: 16px;
-            margin-bottom: 30px;
-            opacity: 0.8;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        input, button {
-            width: 100%;
-            position: relative;
-            padding: 12px 15px;
-            border: 3px solid #000;
-            background: transparent;
-            border-radius: 0px;
-            box-shadow: 5px 5px 0 #000;
-            font-size: 16px;
-            color: var(--text-color);
-        }
-
-        button {
-            display: block;
-            width: 100%;
-            padding: 0.75rem;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 3px solid #000;
-            background-color: #3DAF00;
-            color: #000;
-            position: relative;
-            transition: all 0.2s ease;
-            box-shadow: 5px 5px 0 #000;
-            overflow: hidden;
-            text-decoration: none;
-            margin-bottom: 1rem;
-        }
-
-        button:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0 #000;
-        }
-
-        button:active {
-            transform: translate(5px, 5px);
-            box-shadow: none;
-        }
-
-        .result {
-            font-size: 18px;
-            text-align: center;
-            margin: 15px 0;
-            padding: 15px;
-            border: 3px solid #000000;
-            background: var(--bg-color);
-            box-shadow: 5px 5px 0 #000;
-        }
-        
-        .nav {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .nav button {
-            cursor: pointer;
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 12px;
-            position: relative;
-            margin: 15px auto;
-            background-color: #F4CE14;
-            box-shadow: 5px 5px 0 #000;
-            border: 3px solid #000;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(245, 245, 245, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: var(--bg-color);
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 5px 5px 0 #000;
-            border: 3px solid #000;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 70px;
-            height: 30px;
-            font-weight: 900;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            color: yellow;
-            justify-content: center;
-            cursor: pointer;
-            background: red;
-            box-shadow: 5px 5px 0 #000;
-            border: 3px solid #000;
-        }
-
-        .modal-title {
-            width: 150px;
-            height: 50px;
-            font-weight: 900;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            color: #242424;
-            justify-content: center;
-            cursor: pointer;
-            background: #F4CE14;
-            box-shadow: 5px 5px 0 #000;
-            border: 3px solid #000;
-            margin-bottom: 20px;
-            font-size: 22px;
-        }
-
-        .modal-body {
-            line-height: 1.5;
-        }
-
-        .modal-body p {
-            margin-bottom: 15px;
-        }
-
-        .modal-body ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .developer-info {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .developer-name {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .developer-title {
-            font-style: italic;
-            margin-bottom: 5px;
-        }
-        
-        .datepicker {
-            position: relative;
-            width: 320px;
-            font-weight: 700;
-            height: 50px;
-            box-shadow: 5px 5px 0 #000;
-            text-transform: uppercase;
-            border: 1px dashed #000;
-        }
-
-        .datepcker {
-            text-align: center;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        /* From Uiverse.io by benjimich */ 
-        .card {
-            width: 300px;
-            height: 380px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #fffe00;
-            border-radius: 12px;
-            box-shadow: 5px 10px 60px #d9d800,
-                       -5px -10px 60px #ffff00;
-        }
-
-        .card .info {
-            text-align: center;
-            margin-top: 0.4em;
-            background: #242424;
-            background-clip: border-box;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .card .info > span {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .card .img {
-            height: 150px;
-            margin-top: 1.6em;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: transparent;
-            margin-bottom: 0.2em;
-        }
-    </style>
+@keyframes heartbeat {
+	0%   { transform: scale(1);    }
+	30%  { transform: scale(1);    }
+	40%  { transform: scale(1.12); }
+	50%  { transform: scale(1);    }
+	60%  { transform: scale(1);    }
+	70%  { transform: scale(1.08); }
+	80%  { transform: scale(1);    }
+	100% { transform: scale(1);    }
+}
+</style>
+       
 </head>
 <body>
-    <div class="container">
-        <div class="neumorphic">
-        <div class="bubbles"><div class="bubble logo1"></div></div>
-            <h1 class="title">LIFE METER</h1>
-            <p class="subtitle">DISCOVER YOUR ESTIMATED LIFESPAN BASED ON YOUR CURRENT AGE.</p>
+
+
+  <script>
+    document.body.addEventListener('touchmove', function(event) {
+      event.preventDefault();
+    }, {
+      passive: false,
+      useCapture: false
+    });
+ 
+    window.onresize = function() {
+      $(document.body).width(window.innerWidth).height(window.innerHeight);
+    }
+ 
+    $(function() {
+      window.onresize();
+    });
+  </script>
+<svg id="heart" width="72" height="59" viewBox="0 0 72 59" xmlns="http://www.w3.org/2000/svg">
+
+
+    <path d="M36.86 8.665l3.172-3.172c7.146-7.146 18.733-7.146 25.88 0 7.146 7.147 7.146 18.733 0 25.88L54.037 43.246c2.973-7.252 1.54-15.863-4.314-21.718L36.86 8.665z" fill="#eb5294"/>
+    <path d="M47.164 24.294L28.922 6.052C22.39-.48 11.8-.48 5.268 6.052s-6.532 17.122 0 23.654l27.7 27.7c1.308 1.31 3.43 1.31 4.738 0l9.458-9.458c6.532-6.532 6.532-17.122 0-23.654z" fill="#ff0000"/>
+  
+</svg>  
+<script>
+    
+        // Smooth redirect with countdown and animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const timerElement = document.getElementById('countdown');
+            let seconds = 6;
             
-            <div class="nav">
-                <button onclick="openModal('about-modal')">INFO/USES</button>
-                <button onclick="openModal('disclaimer-modal')">DISCLAIMER</button>
-                <button onclick="openModal('developer-modal')">DEVELOPER</button>
-            </div>
-            
-            <?php if (!$showResults): ?>
-                <!-- Page 1: Input Form -->
-                <form method="POST" action="">
-                    <div class="input-group">
-                        <label for="birth_date">Pick your Date of Birth</label>
-                        <input type="date" id="birth_date" name="birth_date" class="datepicker" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label type="current_age">How Old Are You?</label>
-                        <input type="text" id="current_age" class="datepcker" readonly>
-                    </div>
-                    
-                    <button type="submit">Submit</button>
-                </form>
-            <?php else: ?>
-                <!-- Page 2: Results -->
-                <div class="result">
-                    <p>Your current age, <?php echo $currentAge; ?> years</p>
-                </div>
+            // Update countdown every second
+            const countdown = setInterval(function() {
+                seconds--;
+                if(timerElement) timerElement.textContent = seconds;
                 
-                <div class="result">
-                    <p>You are expected to live another <?php echo $remainingYears; ?> years</p>
-                </div>
-                
-                <div class="result">
-                    <p>You are expected to live until the age of <?php echo $expectedLifeSpan; ?> years</p>
-                </div>
-                
-                <button onclick="window.location.href=''">back to home</button>
-            <?php endif; ?>
-        </div>
-        
-        <div class="footer">2025 © SURESH KALEYANNAN</div>
-    </div>
-
-    <!-- About Modal -->
-    <div id="about-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('about-modal')">CLOSE</span>
-            <h2 class="modal-title">ABOUT</h2>
-            <div class="modal-body">
-                <p>Life expectancy a.k.a Life Meter is the average remaining age (years) for a person is expected to live at the beginning of a certain time, assuming the mortality rate of a certain age is the same throughout his or her lifetime. The Life expectancy calculator is an interactive tool provided for user to measure the average life expectancy based birth year.</p>
-                
-                <p><strong>USES OF LIFE METER CALCULATOR</strong></p>
-                <ul>
-                    <li>By using a life expectancy calculator, individuals can take a holistic approach to planning their lives, ensuring they maximize their time and resources.</li><br>
-                    <li>By providing an estimate of how long someone might live, it helps in making better decisions and supports wise choices regarding health, finances, and lifestyle.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Developer Modal -->
-    <div id="developer-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('developer-modal')">CLOSE</span>
-            <h2 class="modal-title">DEVELOPER</h2>
-            <div class="modal-body">
-                <div class="developer-info">
-                    </br>
-                    
-                    <!-- From Uiverse.io by benjimich --> 
-                    <div class="card">
-                        <div class="img">
-                            <img src="https://raw.githubusercontent.com/sureshapps/QRocket/refs/heads/main/dev.png" alt="Suresh" width="100%" height="100%">
-                        </div>
-                        <div class="info">
-                            <span>Suresh Kaleyannan</span>
-                            <p>Develeper / Designer</p>
-                            <p>Kuala Lumpur, Malaysia</p>    
-                        </div>
-                        </br>
-                        <span>
-                            <a href="https://facebook.com/mesureshks"><img src="https://cdn-icons-png.flaticon.com/512/20/20673.png" alt="Suresh" width="32px" height="32px"></a>
-                            <a href="https://instagram.com/sureshksmy"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384015.png" alt="Suresh" width="32px" height="32px"></a>
-                            <a href="https://github.com/sureshapps"><img src="https://cdn-icons-png.flaticon.com/512/1051/1051326.png" alt="Suresh" width="32px" height="32px"></a>
-                            <a href="https://sureshks.wasap.my"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384007.png" alt="Suresh" width="32px" height="32px"></a>
-                        </span>
-                    </div>
-                    </br>
-
-                    <button onclick="window.open('https://hello.suresh.app', '_blank')">
-                        SEND FEEDBACK / COMMENTS
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Disclaimer Modal -->
-    <div id="disclaimer-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('disclaimer-modal')">CLOSE</span>
-            <h2 class="modal-title">DISCLAIMER</h2>
-            <div class="modal-body">
-                <p>These calculations are based solely on statistical formulas and are for interactive use only.</p>
-                <p>The calculation is based on life expectancy data from </p><p><b>Department of Statistics Malaysia</b></p>
-                <img src="http://www.statistics.gov.my/assets/img/logo-dosm-English.png" alt="Jabatan Perangkaan Malaysia" width="100%" height="100%">
-                <p>www.statistics.gov.my</p>
-                
-                <h2 class="modal-title"><strong>PRIVACY</strong></h2>
-                
-                <p>This Life Meter Calculator application only collects information entered directly by the user while using the application. This includes numbers, mathematical operations, and any notes or comments added by the user. We do not collect any personal information such as name, address, or payment information. </p>
-                <p>All data entered is completely anonymous and is used only for in-app emutation purposes. We ensure that user privacy is maintained and no data is shared with third parties.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Calculate age from date input
-        document.getElementById('birth_date').addEventListener('change', function() {
-            const birthDate = new Date(this.value);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            document.getElementById('current_age').value = age + ' years';
+                if(seconds <= 0) {
+                    clearInterval(countdown);
+                    // Add a fade-out effect before redirect
+                    document.body.style.opacity = '0';
+                    document.body.style.transition = 'opacity 500ms ease-in-out';
+                    setTimeout(function() {
+                        window.location.href = "https://lifemeter.suresh.app";
+                    }, 500);
+                }
+            }, 1000);
         });
-
-        // Modal functions
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-            }
-        }
     </script>
 </body>
 </html>
